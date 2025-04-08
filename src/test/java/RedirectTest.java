@@ -5,20 +5,17 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatusCodeCheckTest {
+public class RedirectTest {
     @Test
     public void testStatusCode() {
-        String url = "https://playground.learnqa.ru/api/get_500";
-        Map<String, String> jsonBody = new HashMap<>();
-        jsonBody.put("param1", "value1");
-        jsonBody.put("param2", "value2");
+        String url = "https://playground.learnqa.ru/api/get_303";
 
         Response response = RestAssured
                 .given()
-                .log().all()
-                .header("Content-Type", "application/json")
-                .body(jsonBody)
-                .post(url)
+                .redirects()
+                .follow(true)
+                .when()
+                .get(url)
                 .then()
                 .log().all()
                 .extract()
@@ -28,3 +25,4 @@ public class StatusCodeCheckTest {
         System.out.println("Status Code: " + statusCode);
     }
 }
+
